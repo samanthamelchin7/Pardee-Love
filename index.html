@@ -6,8 +6,46 @@
     <meta property="og:title" content="How Compatible are you with a Pardee student? 💕">
     <meta property="og:description" content="Take this quiz to find out if you're ready for a lifetime of international debates and policy discussions!">
     <title>Pardee Compatibility Quiz</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #FDF2F8;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            color: #DB2777;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #9D174D;
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            color: #4B5563;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .tagline {
+            color: #DB2777;
+            text-align: center;
+            font-size: 1.1em;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
         .heart-container {
             position: relative;
             width: 200px;
@@ -32,12 +70,54 @@
         }
         .question {
             display: none;
+            margin-top: 30px;
         }
         .question.active {
             display: block;
         }
+        .question h2 {
+            color: #DB2777;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .answer-button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: #67C3C3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .answer-button:hover {
+            background: #4A9E9E;
+        }
         .result {
             display: none;
+            text-align: center;
+        }
+        .result h2 {
+            color: #DB2777;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .restart-button {
+            background: #DB2777;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .restart-button:hover {
+            background: #9D174D;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -47,74 +127,136 @@
         .pulse {
             animation: pulse 2s infinite;
         }
-        .sparkle {
-            position: relative;
-        }
-        .sparkle::before, .sparkle::after {
-            content: '✨';
-            position: absolute;
-            animation: twinkle 1.5s infinite;
-        }
-        .sparkle::before {
-            left: -20px;
-        }
-        .sparkle::after {
-            right: -20px;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .question button {
-            position: relative;
-            overflow: hidden;
-        }
-        .question button:hover::after {
-            content: '💖';
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
     </style>
 </head>
-<body class="bg-pink-50 min-h-screen py-8">
-    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-pink-600 mb-4">❤️ Be Mine? ❤️</h1>
-            <h2 class="text-3xl font-bold text-pink-500 mb-4">How Compatible are you with a Pardee student? 💕</h2>
-            <p class="text-lg text-gray-600">Answer these questions and find out if you're ready for a lifetime of international debates, late-night policy briefings, and spontaneous rants about diplomacy! 🌎✨</p>
-            <div class="mt-4 text-sm text-pink-400">Remember: Love knows no borders! 🗺️💝</div>
+<body>
+    <div class="container">
+        <h1 class="title">❤️ Be Mine? ❤️</h1>
+        <h2 class="subtitle">How Compatible are you with a Pardee student? 💕</h2>
+        <p class="intro-text">Answer these questions and find out if you're ready for a lifetime of international debates, late-night policy briefings, and spontaneous rants about diplomacy! 🌎✨</p>
+        <p class="tagline">Remember: Love knows no borders! 🗺️💝</p>
+        
+        <div class="heart-container pulse">
+            <div class="heart"></div>
+            <div class="heart-fill" style="height: 0%"></div>
         </div>
-        
-        <!-- Rest of the quiz HTML remains the same -->
-        
+
+        <div id="quiz-container">
+            <div class="question active" data-question="1">
+                <h2>1. Do you love talking about global affairs? 🌍</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">If my idea of small talk includes geopolitics and international trade, absolutely!</button>
+                <button class="answer-button" onclick="nextQuestion(2)">I'll listen and try to learn, but it's not my forte.</button>
+                <button class="answer-button" onclick="nextQuestion(1)">Can we please talk about something else?</button>
+            </div>
+
+            <div class="question" data-question="2">
+                <h2>2. Can you handle spontaneous debates? 💭</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">Bring it on! I love discussing different perspectives!</button>
+                <button class="answer-button" onclick="nextQuestion(2)">I can engage sometimes, but let's keep it friendly.</button>
+                <button class="answer-button" onclick="nextQuestion(1)">I prefer to avoid heated discussions.</button>
+            </div>
+
+            <div class="question" data-question="3">
+                <h2>3. Are you okay with them canceling date night for a 40-page policy briefing? 📚</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">Of course! I understand their commitment to changing the world.</button>
+                <button class="answer-button" onclick="nextQuestion(2)">Sometimes, but they better make it up to me!</button>
+                <button class="answer-button" onclick="nextQuestion(1)">That's a deal-breaker for me.</button>
+            </div>
+
+            <div class="question" data-question="4">
+                <h2>4. What's your idea of the perfect vacation? ✈️</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">Visiting historical sites and discussing regional politics!</button>
+                <button class="answer-button" onclick="nextQuestion(2)">A mix of culture and relaxation sounds perfect.</button>
+                <button class="answer-button" onclick="nextQuestion(1)">Anywhere with zero Wi-Fi so I don't have to hear about global affairs.</button>
+            </div>
+
+            <div class="question" data-question="5">
+                <h2>5. How often do you read the news? 📰</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">Multiple news updates on my phone - I need to stay informed!</button>
+                <button class="answer-button" onclick="nextQuestion(2)">I check headlines when something big happens.</button>
+                <button class="answer-button" onclick="nextQuestion(1)">The news is too depressing, I avoid it.</button>
+            </div>
+
+            <div class="question" data-question="6">
+                <h2>6. Will you support their dream of changing the world? 🌟</h2>
+                <button class="answer-button" onclick="nextQuestion(3)">100%! Whether they're saving democracy or negotiating treaties, I'm their biggest fan!</button>
+                <button class="answer-button" onclick="nextQuestion(2)">I support them, but I might not always understand the details.</button>
+                <button class="answer-button" onclick="nextQuestion(1)">As long as it doesn't interfere with our relationship too much.</button>
+            </div>
+
+            <div id="results" class="result">
+                <h2>Your Results! 🎉</h2>
+                <div id="result-text"></div>
+                <button class="restart-button" onclick="resetQuiz()">Take Quiz Again</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Quiz JavaScript remains the same
-    </script>
-    
-    <!-- Add social sharing buttons -->
-    <div class="fixed bottom-4 right-4 space-x-2">
-        <button onclick="shareOnTwitter()" class="bg-blue-400 text-white px-4 py-2 rounded-full hover:bg-blue-500">
-            Share on Twitter 🐦
-        </button>
-        <button onclick="shareOnFacebook()" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700">
-            Share on Facebook 📱
-        </button>
-    </div>
+        let currentQuestion = 1;
+        let totalScore = 0;
+        const totalQuestions = 6;
 
-    <script>
-        function shareOnTwitter() {
-            const text = "I just took the Pardee Compatibility Quiz! Find out if you're ready to date a future world leader! 🌎💕";
-            const url = window.location.href;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        function updateHeart(percentage) {
+            document.querySelector('.heart-fill').style.height = percentage + '%';
         }
 
-        function shareOnFacebook() {
-            const url = window.location.href;
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        function nextQuestion(score) {
+            totalScore += score;
+            const progress = (currentQuestion / totalQuestions) * 100;
+            updateHeart(progress);
+
+            document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.remove('active');
+            currentQuestion++;
+
+            if (currentQuestion <= totalQuestions) {
+                document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.add('active');
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+            const results = document.getElementById('results');
+            results.style.display = 'block';
+
+            const resultText = document.getElementById('result-text');
+            const maxScore = totalQuestions * 3;
+            const percentage = (totalScore / maxScore) * 100;
+
+            if (percentage >= 75) {
+                resultText.innerHTML = `
+                    <div style="font-size: 1.5em; margin-bottom: 20px;">💝 Perfect Match! (${totalScore}/${maxScore} points)</div>
+                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">Congrats! You're officially dating a future world leader!</div>
+                    <div>You're ready for a lifetime of international debates, late-night policy briefings, and changing the world together. Your Pardee student will love having such a supportive and engaged partner!</div>
+                `;
+            } else if (percentage >= 50) {
+                resultText.innerHTML = `
+                    <div style="font-size: 1.5em; margin-bottom: 20px;">💕 You've Got Potential! (${totalScore}/${maxScore} points)</div>
+                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">A few Model UN conferences and you'll be Pardee-certified!</div>
+                    <div>Just prepare for passionate debates over dinner and occasional rants about foreign policy. With some effort, this could work!</div>
+                `;
+            } else {
+                resultText.innerHTML = `
+                    <div style="font-size: 1.5em; margin-bottom: 20px;">💌 Room for Growth (${totalScore}/${maxScore} points)</div>
+                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">You might be better off dating an engineer...</div>
+                    <div>But if you're willing to brush up on world affairs and embrace their passion for global change, love might find a way! Just be prepared for lots of UN drama!</div>
+                `;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 1;
+            totalScore = 0;
+            updateHeart(0);
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('active');
+                q.style.display = 'none';
+            });
+            document.querySelector('.question[data-question="1"]').classList.add('active');
+            document.querySelector('.question[data-question="1"]').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
         }
     </script>
 </body>
