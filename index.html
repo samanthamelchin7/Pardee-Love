@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="How Compatible are you with a Pardee student? 💕">
-    <meta property="og:description" content="Take this quiz to find out if you're ready for a lifetime of international debates and policy discussions!">
     <title>Pardee Compatibility Quiz</title>
     <style>
         body {
@@ -58,8 +56,6 @@
             height: 100%;
             background: #ff4d6d;
             clip-path: path('M100,30 C60,7 0,7 0,76 C0,131 100,190 100,190 C100,190 200,131 200,76 C200,7 140,7 100,30 Z');
-            transform-origin: center;
-            transition: all 0.5s;
         }
         .heart-fill {
             position: absolute;
@@ -101,31 +97,14 @@
             display: none;
             text-align: center;
         }
-        .result h2 {
-            color: #DB2777;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .restart-button {
-            background: #DB2777;
+        .share-button {
+            background: #4267B2;
             color: white;
+            padding: 10px 20px;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 20px;
+            margin: 5px;
             cursor: pointer;
-            margin-top: 20px;
-        }
-        .restart-button:hover {
-            background: #9D174D;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .pulse {
-            animation: pulse 2s infinite;
         }
     </style>
 </head>
@@ -135,8 +114,8 @@
         <h2 class="subtitle">How Compatible are you with a Pardee student? 💕</h2>
         <p class="intro-text">Answer these questions and find out if you're ready for a lifetime of international debates, late-night policy briefings, and spontaneous rants about diplomacy! 🌎✨</p>
         <p class="tagline">Remember: Love knows no borders! 🗺️💝</p>
-        
-        <div class="heart-container pulse">
+
+        <div class="heart-container">
             <div class="heart"></div>
             <div class="heart-fill" style="height: 0%"></div>
         </div>
@@ -187,7 +166,7 @@
             <div id="results" class="result">
                 <h2>Your Results! 🎉</h2>
                 <div id="result-text"></div>
-                <button class="restart-button" onclick="resetQuiz()">Take Quiz Again</button>
+                <button class="answer-button" onclick="resetQuiz()" style="text-align: center;">Take Quiz Again</button>
             </div>
         </div>
     </div>
@@ -206,11 +185,18 @@
             const progress = (currentQuestion / totalQuestions) * 100;
             updateHeart(progress);
 
-            document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.remove('active');
+            const currentQuestionEl = document.querySelector(`.question[data-question="${currentQuestion}"]`);
+            if (currentQuestionEl) {
+                currentQuestionEl.classList.remove('active');
+            }
+            
             currentQuestion++;
 
             if (currentQuestion <= totalQuestions) {
-                document.querySelector(`.question[data-question="${currentQuestion}"]`).classList.add('active');
+                const nextQuestionEl = document.querySelector(`.question[data-question="${currentQuestion}"]`);
+                if (nextQuestionEl) {
+                    nextQuestionEl.classList.add('active');
+                }
             } else {
                 showResults();
             }
@@ -219,29 +205,33 @@
         function showResults() {
             document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
             const results = document.getElementById('results');
-            results.style.display = 'block';
+            if (results) {
+                results.style.display = 'block';
+            }
 
             const resultText = document.getElementById('result-text');
             const maxScore = totalQuestions * 3;
             const percentage = (totalScore / maxScore) * 100;
 
-            if (percentage >= 75) {
-                resultText.innerHTML = `
-                    <div style="font-size: 1.5em; margin-bottom: 20px;">💝 Perfect Match! (${totalScore}/${maxScore} points)</div>
-                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">Congrats! You're officially dating a future world leader!</div>
-                    <div>You're ready for a lifetime of international debates, late-night policy briefings, and changing the world together. Your Pardee student will love having such a supportive and engaged partner!</div>
-                `;
+            let resultMessage = '';
+            if (percentage === 100) {
+                resultMessage = "Congrats! You're officially dating a future world leader! 🌟";
+            } else if (percentage >= 75) {
+                resultMessage = "You're almost there! Just prepare for passionate debates over dinner and occasional rants about foreign policy! 💫";
             } else if (percentage >= 50) {
-                resultText.innerHTML = `
-                    <div style="font-size: 1.5em; margin-bottom: 20px;">💕 You've Got Potential! (${totalScore}/${maxScore} points)</div>
-                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">A few Model UN conferences and you'll be Pardee-certified!</div>
-                    <div>Just prepare for passionate debates over dinner and occasional rants about foreign policy. With some effort, this could work!</div>
-                `;
+                resultMessage = "You've got potential! A few Model UN conferences and you'll be Pardee-certified! 💕";
             } else {
+                resultMessage = "You might be better off dating an engineer... or just brushing up on world affairs! 📚";
+            }
+
+            if (resultText) {
                 resultText.innerHTML = `
-                    <div style="font-size: 1.5em; margin-bottom: 20px;">💌 Room for Growth (${totalScore}/${maxScore} points)</div>
-                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">You might be better off dating an engineer...</div>
-                    <div>But if you're willing to brush up on world affairs and embrace their passion for global change, love might find a way! Just be prepared for lots of UN drama!</div>
+                    <div style="font-size: 1.5em; margin-bottom: 20px;">
+                        Your Score: ${totalScore}/${maxScore} (${percentage.toFixed(0)}%)
+                    </div>
+                    <div style="color: #DB2777; font-weight: bold; margin-bottom: 20px;">
+                        ${resultMessage}
+                    </div>
                 `;
             }
         }
@@ -254,9 +244,15 @@
                 q.classList.remove('active');
                 q.style.display = 'none';
             });
-            document.querySelector('.question[data-question="1"]').classList.add('active');
-            document.querySelector('.question[data-question="1"]').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
+            const firstQuestion = document.querySelector('.question[data-question="1"]');
+            if (firstQuestion) {
+                firstQuestion.classList.add('active');
+                firstQuestion.style.display = 'block';
+            }
+            const results = document.getElementById('results');
+            if (results) {
+                results.style.display = 'none';
+            }
         }
     </script>
 </body>
